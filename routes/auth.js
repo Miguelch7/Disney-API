@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
-const { register } = require('../controllers/auth');
+const { register, login } = require('../controllers/auth');
 const { usernameExists, emailExists } = require('../helpers/dbValidators');
 const { validateFields } = require('../middlewares/validateFields');
 
@@ -14,5 +14,11 @@ router.post('/register', [
     check('password', 'La contraseña debe tener mínimo 8 caracteres, un número, una letra mayúscula y una letra minúscula').isStrongPassword({ minSymbols: 0 }),
     validateFields
 ], register);
+
+router.post('/login', [
+    check('email', 'El email no es válido').isEmail(),
+    check('password', 'La contraseña es obligatoria').not().isEmpty(),
+    validateFields
+],login);
 
 module.exports = router;

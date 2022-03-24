@@ -9,7 +9,7 @@ const usernameExists = async ( username = '' ) => {
 };
 
 const emailExists = async ( email = '' ) => {
-    const user = await User.findOne( { where: { email } }) ;
+    const user = await User.findOne( { where: { email } });
     
     if ( user ) {
         throw new Error(`El email '${ email }' ya está registrado en la base de datos.`);
