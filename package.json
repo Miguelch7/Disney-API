@@ -1,0 +1,24 @@
+{
+  "name": "disney-api",
+  "version": "1.0.0",
+  "description": "API para explorar el mundo de Disney",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Miguelch7/Disney-API.git"
+  },
+  "author": "Miguel Chanampa",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Miguelch7/Disney-API/issues"
+  },
+  "homepage": "https://github.com/Miguelch7/Disney-API#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
+    "express": "^4.17.3"
+  }
+}
