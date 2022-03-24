@@ -8,6 +8,10 @@ class Server {
         this.app = express();
         this.port = process.env.SERVER_PORT;
 
+        this.paths = {
+            auth: '/auth'
+        };
+
         // Conectar a la base de datos
         this.connectDB();
 
@@ -34,7 +38,7 @@ class Server {
     };
 
     routes() {
-
+        this.app.use( this.paths.auth, require('../routes/auth') );
     };
 
     listen() {
