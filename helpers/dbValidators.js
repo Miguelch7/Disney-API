@@ -1,4 +1,4 @@
-const User = require('../models/users');
+const User = require('../models/user');
 
 const usernameExists = async ( username = '' ) => {
     const user = await User.findOne( { where: { username } }) ;
