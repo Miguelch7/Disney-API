@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 
-const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASSWORD, {
+const db = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASSWORD, {
     host: process.env.DB_HOST,
     port: process.env.DB_PORT,
     dialect: 'mysql',
@@ -15,7 +15,7 @@ const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, proces
 const dbConnection = async () => {
 
     try {
-        await sequelize.authenticate();
+        await db.sync();
         
         console.log('EXITO! DB Conectada');
     } catch (error) {
@@ -26,5 +26,6 @@ const dbConnection = async () => {
 };
 
 module.exports = {
+    db, 
     dbConnection
 };
