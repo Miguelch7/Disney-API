@@ -20,7 +20,24 @@ const createCharacter = async ( req, res = response ) => {
     });
 };
 
+const updateCharacter = async ( req, res = response ) => {
+
+    const { id } = req.params;
+
+    let character = await Character.findByPk(id);
+
+    await character.update( req.body );
+
+    await character.save();
+
+    res.json({
+        msg: 'El personaje se ha actualizado con éxito',
+        character
+    });
+};
+
 module.exports = {
     getCharacters,
-    createCharacter
+    createCharacter,
+    updateCharacter
 };

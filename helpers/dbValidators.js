@@ -1,4 +1,5 @@
 const User = require('../models/user');
+const Character = require('../models/character');
 
 const usernameExists = async ( username = '' ) => {
     const user = await User.findOne( { where: { username } }) ;
@@ -16,7 +17,16 @@ const emailExists = async ( email = '' ) => {
     };
 };
 
+const characterExistById = async ( id = '' ) => {
+    const character = await Character.findByPk(id);
+
+    if ( !character ) {
+        throw new Error(`No existe un personaje con ese id`);
+    };
+};
+
 module.exports = {
     usernameExists,
-    emailExists
+    emailExists,
+    characterExistById
 };

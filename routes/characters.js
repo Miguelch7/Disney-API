@@ -2,7 +2,8 @@ const { Router } = require('express');
 const { check } = require('express-validator');
 const { validateJWT } = require('../middlewares/validateJWT');
 const { validateFields } = require('../middlewares/validateFields');
-const { getCharacters, createCharacter } = require('../controllers/characters');
+const { characterExistById } = require('../helpers/dbValidators');
+const { getCharacters, createCharacter, updateCharacter } = require('../controllers/characters');
 
 const router = Router();
 
@@ -16,5 +17,12 @@ router.post('/', [
     check('history', 'La historia del personaje es obligatoria').not().isEmpty(),
     validateFields
 ], createCharacter);
+
+router.put('/:id', [
+    validateJWT,
+    check('id', 'No es un ID válido').isNumeric(),
+    check('id').custom( characterExistById ),
+    validateFields
+], updateCharacter);
 
 module.exports = router;
