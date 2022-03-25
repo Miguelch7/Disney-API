@@ -22,7 +22,25 @@ const createMovie = async ( req, res = response ) => {
     });
 };
 
+// Editar película/serie
+const updateMovie = async ( req, res = response ) => {
+
+    const { id } = req.params;
+
+    const movie = await Movie.findByPk(id);
+
+    await movie.update( req.body );
+
+    await movie.save();
+
+    res.json({
+        msg: 'La película/serie se ha actualizado con éxito',
+        movie
+    });
+};
+
 module.exports = {
     getAllMovies,
-    createMovie
+    createMovie,
+    updateMovie
 };

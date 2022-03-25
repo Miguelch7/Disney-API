@@ -1,5 +1,6 @@
 const User = require('../models/user');
 const Character = require('../models/character');
+const Movie = require('../models/movie');
 
 const usernameExists = async ( username = '' ) => {
     const user = await User.findOne( { where: { username } }) ;
@@ -25,8 +26,17 @@ const characterExistById = async ( id = '' ) => {
     };
 };
 
+const movieExistById = async ( id = '' ) => {
+    const movie = await Movie.findByPk(id);
+
+    if ( !movie ) {
+        throw new Error(`No existe una película/serie con ese id`);
+    };
+};
+
 module.exports = {
     usernameExists,
     emailExists,
-    characterExistById
+    characterExistById,
+    movieExistById
 };
