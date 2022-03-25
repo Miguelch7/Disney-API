@@ -3,10 +3,14 @@ const { check } = require('express-validator');
 const { validateJWT } = require('../middlewares/validateJWT');
 const { validateFields } = require('../middlewares/validateFields');
 const { 
+    getAllMovies,
     createMovie, 
 } = require('../controllers/movies');
 
 const router = Router();
+
+// Listado de películas/series
+router.get('/', validateJWT, getAllMovies);
 
 // Crear película/serie
 router.post('/', [

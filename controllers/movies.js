@@ -1,6 +1,16 @@
 const { response } = require('express');
 const Movie = require('../models/movie');
 
+// Listado de películas/series
+const getAllMovies = async ( req, res = response ) => {
+
+    const movies = await Movie.findAll({ attributes: [ 'image', 'title', 'published' ] });
+
+    res.json({
+        movies
+    });
+};
+
 // Crear película/serie
 const createMovie = async ( req, res = response ) => {
     
@@ -13,5 +23,6 @@ const createMovie = async ( req, res = response ) => {
 };
 
 module.exports = {
+    getAllMovies,
     createMovie
 };
