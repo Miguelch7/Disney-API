@@ -3,12 +3,27 @@ const { check } = require('express-validator');
 const { validateJWT } = require('../middlewares/validateJWT');
 const { validateFields } = require('../middlewares/validateFields');
 const { characterExistById } = require('../helpers/dbValidators');
-const { getCharacters, createCharacter, updateCharacter, deleteCharacter } = require('../controllers/characters');
+const { 
+    getAllCharacters, 
+    getOneCharacter, 
+    createCharacter, 
+    updateCharacter, 
+    deleteCharacter 
+} = require('../controllers/characters');
 
 const router = Router();
 
-router.get('/', validateJWT, getCharacters);
+// Listado de personajes
+router.get('/', validateJWT, getAllCharacters);
 
+// Detalle de personaje
+router.get('/:id', [
+    validateJWT,
+    check('id', 'No es un ID válido').isNumeric(),
+    validateFields
+], getOneCharacter);
+
+// Crear personaje
 router.post('/', [
     validateJWT,
     check('name', 'El nombre del personaje es obligatorio').not().isEmpty(),
@@ -18,6 +33,7 @@ router.post('/', [
     validateFields
 ], createCharacter);
 
+// Editar personaje
 router.put('/:id', [
     validateJWT,
     check('id', 'No es un ID válido').isNumeric(),
@@ -25,6 +41,7 @@ router.put('/:id', [
     validateFields
 ], updateCharacter);
 
+// Eliminar personaje
 router.delete('/:id', [
     validateJWT,
     check('id', 'No es un ID válido').isNumeric(),

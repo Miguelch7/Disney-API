@@ -1,15 +1,34 @@
 const { response } = require('express');
 const Character = require('../models/character');
 
-const getCharacters = async ( req, res = response ) => {
+// Listado de personajes
+const getAllCharacters = async ( req, res = response ) => {
 
-    const characters = await Character.findAll();
+    const characters = await Character.findAll({ attributes: [ 'image', 'name' ] });
 
     res.json({
         characters
     });
 };
 
+// Detalle de personaje
+const getOneCharacter = async ( req, res = response ) => {
+    const { id } = req.params;
+
+    const character = await Character.findByPk(id);
+
+    if (!character) {
+        return res.status(404).json({
+            msg: 'No se ha encontrado un personaje con ese id'
+        });
+    };
+
+    res.json({
+        character
+    });
+};
+
+// Crear personaje
 const createCharacter = async ( req, res = response ) => {
     
     const character = await Character.create( req.body );
@@ -20,6 +39,7 @@ const createCharacter = async ( req, res = response ) => {
     });
 };
 
+// Editar personaje
 const updateCharacter = async ( req, res = response ) => {
 
     const { id } = req.params;
@@ -36,6 +56,7 @@ const updateCharacter = async ( req, res = response ) => {
     });
 };
 
+// Eliminar personaje
 const deleteCharacter = async ( req, res = response ) => {
 
     const { id } = req.params;
@@ -50,7 +71,8 @@ const deleteCharacter = async ( req, res = response ) => {
 };
 
 module.exports = {
-    getCharacters,
+    getAllCharacters,
+    getOneCharacter,
     createCharacter,
     updateCharacter,
     deleteCharacter
