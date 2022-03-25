@@ -4,7 +4,15 @@ const Movie = require('../models/movie');
 // Listado de películas/series
 const getAllMovies = async ( req, res = response ) => {
 
-    const movies = await Movie.findAll({ attributes: [ 'image', 'title', 'published' ] });
+    const { query } = req;
+
+    const movies = await Movie.findAll({ where: query, attributes: [ 'image', 'title', 'published' ] });
+
+    if (movies.length === 0) {
+        return res.json({
+            msg: 'No se han encontrado películas/series con los parámetros de búsqueda'
+        });
+    };
 
     res.json({
         movies
