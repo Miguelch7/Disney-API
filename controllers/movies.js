@@ -39,8 +39,23 @@ const updateMovie = async ( req, res = response ) => {
     });
 };
 
+// Eliminar película/serie
+const deleteMovie = async ( req, res = response ) => {
+
+    const { id } = req.params;
+
+    const movie = await Movie.findByPk(id);
+
+    await movie.destroy();
+
+    res.json({
+        msg: 'La película/serie se ha eliminado con éxito'
+    });
+};
+
 module.exports = {
     getAllMovies,
     createMovie,
-    updateMovie
+    updateMovie,
+    deleteMovie
 };

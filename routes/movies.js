@@ -6,7 +6,8 @@ const { movieExistById } = require('../helpers/dbValidators');
 const { 
     getAllMovies,
     createMovie,
-    updateMovie, 
+    updateMovie,
+    deleteMovie, 
 } = require('../controllers/movies');
 
 const router = Router();
@@ -28,5 +29,13 @@ router.put('/:id', [
     check('id').custom( movieExistById ),
     validateFields
 ], updateMovie);
+
+// Eliminar película/serie
+router.delete('/:id', [
+    validateJWT,
+    check('id', 'No es un ID válido').isNumeric(),
+    check('id').custom( movieExistById ),
+    validateFields
+], deleteMovie);
 
 module.exports = router;
