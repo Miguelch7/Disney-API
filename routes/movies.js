@@ -5,6 +5,7 @@ const { validateFields } = require('../middlewares/validateFields');
 const { movieExistById } = require('../helpers/dbValidators');
 const { 
     getAllMovies,
+    getOneMovie,
     createMovie,
     updateMovie,
     deleteMovie, 
@@ -14,6 +15,13 @@ const router = Router();
 
 // Listado de películas/series
 router.get('/', validateJWT, getAllMovies);
+
+// Detalle de película/serie
+router.get('/:id', [
+    validateJWT,
+    check('id', 'No es un ID válido').isNumeric(),
+    validateFields
+], getOneMovie);
 
 // Crear película/serie
 router.post('/', [

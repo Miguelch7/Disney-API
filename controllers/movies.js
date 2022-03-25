@@ -11,6 +11,23 @@ const getAllMovies = async ( req, res = response ) => {
     });
 };
 
+// Detalle de película/serie
+const getOneMovie = async ( req, res = response ) => {
+    const { id } = req.params;
+
+    const movie = await Movie.findByPk(id);
+
+    if (!movie) {
+        return res.status(404).json({
+            msg: 'No se ha encontrado una película/serie con ese id'
+        });
+    };
+
+    res.json({
+        movie
+    });
+};
+
 // Crear película/serie
 const createMovie = async ( req, res = response ) => {
     
@@ -55,6 +72,7 @@ const deleteMovie = async ( req, res = response ) => {
 
 module.exports = {
     getAllMovies,
+    getOneMovie,
     createMovie,
     updateMovie,
     deleteMovie
