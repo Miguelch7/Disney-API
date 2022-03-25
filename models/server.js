@@ -10,7 +10,8 @@ class Server {
 
         this.paths = {
             auth: '/auth',
-            characters: '/characters'
+            characters: '/characters',
+            movies: '/movies'
         };
 
         // Conectar a la base de datos
@@ -41,6 +42,7 @@ class Server {
     routes() {
         this.app.use( this.paths.auth, require('../routes/auth') );
         this.app.use( this.paths.characters, require('../routes/characters') );
+        this.app.use( this.paths.movies, require('../routes/movies') );
     };
 
     listen() {
