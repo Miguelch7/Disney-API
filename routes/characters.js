@@ -3,7 +3,7 @@ const { check } = require('express-validator');
 const { validateJWT } = require('../middlewares/validateJWT');
 const { validateFields } = require('../middlewares/validateFields');
 const { characterExistById } = require('../helpers/dbValidators');
-const { getCharacters, createCharacter, updateCharacter } = require('../controllers/characters');
+const { getCharacters, createCharacter, updateCharacter, deleteCharacter } = require('../controllers/characters');
 
 const router = Router();
 
@@ -24,5 +24,12 @@ router.put('/:id', [
     check('id').custom( characterExistById ),
     validateFields
 ], updateCharacter);
+
+router.delete('/:id', [
+    validateJWT,
+    check('id', 'No es un ID válido').isNumeric(),
+    check('id').custom( characterExistById ),
+    validateFields
+], deleteCharacter);
 
 module.exports = router;

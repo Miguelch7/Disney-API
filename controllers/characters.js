@@ -24,7 +24,7 @@ const updateCharacter = async ( req, res = response ) => {
 
     const { id } = req.params;
 
-    let character = await Character.findByPk(id);
+    const character = await Character.findByPk(id);
 
     await character.update( req.body );
 
@@ -36,8 +36,22 @@ const updateCharacter = async ( req, res = response ) => {
     });
 };
 
+const deleteCharacter = async ( req, res = response ) => {
+
+    const { id } = req.params;
+
+    const character = await Character.findByPk(id);
+
+    await character.destroy();
+
+    res.json({
+        msg: 'El personaje se ha eliminado con éxito'
+    });
+};
+
 module.exports = {
     getCharacters,
     createCharacter,
-    updateCharacter
+    updateCharacter,
+    deleteCharacter
 };
