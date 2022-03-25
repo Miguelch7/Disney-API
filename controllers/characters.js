@@ -4,7 +4,15 @@ const Character = require('../models/character');
 // Listado de personajes
 const getAllCharacters = async ( req, res = response ) => {
 
-    const characters = await Character.findAll({ attributes: [ 'image', 'name' ] });
+    const { query } = req;
+
+    const characters = await Character.findAll({ where: query, attributes: [ 'image', 'name' ] });
+
+    if (characters.length === 0) {
+        return res.json({
+            msg: 'No se han encontrado personajes con los parámetros de búsqueda'
+        });
+    };
 
     res.json({
         characters
