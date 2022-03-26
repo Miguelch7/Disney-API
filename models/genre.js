@@ -6,7 +6,7 @@ Genre.init({
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
-        autoIncrement: false
+        autoIncrement: true
     },
     name: {
         type: DataTypes.STRING(60),
@@ -22,7 +22,7 @@ Genre.init({
     }
 }, {
     sequelize: db,
-    modelName: 'Genre'
+    modelName: 'genre'
 });
 
 module.exports = Genre;

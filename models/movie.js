@@ -1,5 +1,6 @@
 const { Model, DataTypes } = require('sequelize');
 const { db } = require('../db/config');
+const Genre = require('./genre');
 
 class Movie extends Model {};
 Movie.init({
@@ -25,7 +26,10 @@ Movie.init({
     }
 }, {
     sequelize: db,
-    modelName: 'Movie'
+    modelName: 'movie'
 });
+
+Genre.hasMany(Movie, { foreignKey: 'genreId' });
+Movie.belongsTo(Genre, { foreignKey: 'genreId' });
 
 module.exports = Movie;

@@ -1,5 +1,6 @@
 const { Model, DataTypes } = require('sequelize');
 const { db } = require('../db/config');
+const Movie = require('./movie');
 
 class Character extends Model {};
 Character.init({
@@ -31,7 +32,10 @@ Character.init({
     }
 }, {
     sequelize: db,
-    modelName: 'Character'
+    modelName: 'character'
 });
+
+Movie.hasMany(Character, { foreignKey: 'movieId'} );
+Character.belongsTo(Movie, { foreignKey: 'movieId' });
 
 module.exports = Character;

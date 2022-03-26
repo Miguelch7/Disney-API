@@ -15,7 +15,7 @@ const db = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.D
 const dbConnection = async () => {
 
     try {
-        await db.sync();
+        await db.sync({ alter: true });
         
         console.log('EXITO! DB Conectada');
     } catch (error) {
