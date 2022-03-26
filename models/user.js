@@ -1,14 +1,15 @@
-const Sequelize = require('sequelize');
+const { Model, DataTypes } = require('sequelize');
 const { db } = require('../db/config');
 
-const User = db.define('user', {
+class User extends Model {};
+User.init({
     id: {
-        type: Sequelize.INTEGER,
+        type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true
     },
     username: {
-        type: Sequelize.STRING(60),
+        type: DataTypes.STRING(60),
         allowNull: false,
         validate: {
             notEmpty: {
@@ -21,7 +22,7 @@ const User = db.define('user', {
         }
     },
     email: {
-        type: Sequelize.STRING(30),
+        type: DataTypes.STRING(30),
         allowNull: false,
         validate: {
             isEmail: {
@@ -34,7 +35,7 @@ const User = db.define('user', {
         }
     },
     password: {
-        type: Sequelize.STRING(60),
+        type: DataTypes.STRING(60),
         allowNull: false,
         validate: {
             notEmpty: {
@@ -42,6 +43,9 @@ const User = db.define('user', {
             }
         }
     }
+}, {
+    sequelize: db,
+    modelName: 'User'
 });
 
 module.exports = User;

@@ -1,14 +1,15 @@
-const Sequelize = require('sequelize');
+const { Model, DataTypes } = require('sequelize');
 const { db } = require('../db/config');
 
-const Movie = db.define('movie', {
+class Movie extends Model {};
+Movie.init({
     id: {
-        type: Sequelize.INTEGER,
+        type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true
     },
     title: {
-        type: Sequelize.STRING(60),
+        type: DataTypes.STRING(60),
         allowNull: false,
         validate: {
             notEmpty: {
@@ -16,12 +17,15 @@ const Movie = db.define('movie', {
             }
         }
     },
-    image: Sequelize.STRING(60),
-    published: Sequelize.DATEONLY,
+    image: DataTypes.STRING(60),
+    published: DataTypes.DATEONLY,
     qualification: {
-        type: Sequelize.INTEGER,
+        type: DataTypes.INTEGER,
         defaultValue: 0
     }
+}, {
+    sequelize: db,
+    modelName: 'Movie'
 });
 
 module.exports = Movie;

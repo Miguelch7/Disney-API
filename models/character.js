@@ -1,14 +1,15 @@
-const Sequelize = require('sequelize');
+const { Model, DataTypes } = require('sequelize');
 const { db } = require('../db/config');
 
-const Character = db.define('character', {
+class Character extends Model {};
+Character.init({
     id: {
-        type: Sequelize.INTEGER,
+        type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true
     },
     name: {
-        type: Sequelize.STRING(60),
+        type: DataTypes.STRING(60),
         allowNull: false,
         validate: {
             notEmpty: {
@@ -16,11 +17,11 @@ const Character = db.define('character', {
             }
         }
     },
-    image: Sequelize.STRING(60),
-    age: Sequelize.INTEGER,
-    weight: Sequelize.INTEGER,
+    image: DataTypes.STRING(60),
+    age: DataTypes.INTEGER,
+    weight: DataTypes.INTEGER,
     history: {
-        type: Sequelize.TEXT,
+        type: DataTypes.TEXT,
         allowNull: false,
         validate: {
             notEmpty: {
@@ -28,6 +29,9 @@ const Character = db.define('character', {
             }
         }
     }
+}, {
+    sequelize: db,
+    modelName: 'Character'
 });
 
 module.exports = Character;
