@@ -1,4 +1,5 @@
 const { response } = require('express');
+const Character = require('../models/character');
 const Movie = require('../models/movie');
 
 // Listado de películas/series
@@ -23,7 +24,9 @@ const getAllMovies = async ( req, res = response ) => {
 const getOneMovie = async ( req, res = response ) => {
     const { id } = req.params;
 
-    const movie = await Movie.findByPk(id);
+    const movie = await Movie.findByPk(id, {
+        include: Character
+    });
 
     if (!movie) {
         return res.status(404).json({
