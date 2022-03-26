@@ -1,5 +1,6 @@
 const { response } = require('express');
 const Character = require('../models/character');
+const Movie = require('../models/movie');
 
 // Listado de personajes
 const getAllCharacters = async ( req, res = response ) => {
@@ -23,7 +24,13 @@ const getAllCharacters = async ( req, res = response ) => {
 const getOneCharacter = async ( req, res = response ) => {
     const { id } = req.params;
 
-    const character = await Character.findByPk(id);
+    const character = await Character.findByPk(id, {
+        include: {
+            model: Movie,
+            attributes: ['title']
+        },
+        attributes: ['id', 'name', 'image', 'age', 'weight', 'history']
+    });
 
     if (!character) {
         return res.status(404).json({
