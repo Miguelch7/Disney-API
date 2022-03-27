@@ -2,6 +2,7 @@ const { response } = require('express');
 const bcryptjs = require('bcryptjs');
 const { generateJWT } = require('../helpers/generateJWT');
 const User = require('../models/user');
+const { sendMail } = require('../helpers/sendMail');
 
 const register = async ( req, res = response ) => {
     
@@ -18,6 +19,9 @@ const register = async ( req, res = response ) => {
 
     // Generar JWT
     const token = await generateJWT( user.id );
+
+    // Enviar email
+    sendMail(username, email);
 
     res.status(200).json({
         msg: 'Registro exitoso',
