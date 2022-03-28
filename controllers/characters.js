@@ -1,6 +1,7 @@
 const { response } = require('express');
 const Character = require('../models/character');
 const Movie = require('../models/movie');
+const { uploadFile, deleteFile } = require('../helpers/fileFunctions');
 
 // Listado de personajes
 const getAllCharacters = async ( req, res = response ) => {
@@ -45,8 +46,15 @@ const getOneCharacter = async ( req, res = response ) => {
 
 // Crear personaje
 const createCharacter = async ( req, res = response ) => {
+
+    const { name, age, weight, history } = req.body;
+    let image = null;
+
+    if ( req.files.image ) {
+        image = await uploadFile( req.files.image, 'characters' );
+    };
     
-    const character = await Character.create( req.body );
+    const character = await Character.create({ name, age, weight, image, history });
 
     res.status(200).json({
         msg: 'El personaje se ha creado con éxito',
@@ -79,6 +87,10 @@ const deleteCharacter = async ( req, res = response ) => {
     const character = await Character.findByPk(id);
 
     await character.destroy();
+
+    if ( character.image ) {
+        deleteFile( character.image, 'characters' );
+    };
 
     res.json({
         msg: 'El personaje se ha eliminado con éxito'

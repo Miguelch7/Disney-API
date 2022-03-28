@@ -3,3 +3,9 @@ node_modules
 
 # Environment Variables
 .env
+
+# Uploads Files
+uploads/*/
+uploads/*.jpg
+uploads/*.jpeg
+uploads/*.png

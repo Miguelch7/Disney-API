@@ -1,6 +1,7 @@
 const { response } = require('express');
 const Character = require('../models/character');
 const Movie = require('../models/movie');
+const { uploadFile } = require('../helpers/fileFunctions');
 
 // Listado de películas/series
 const getAllMovies = async ( req, res = response ) => {
@@ -41,8 +42,15 @@ const getOneMovie = async ( req, res = response ) => {
 
 // Crear película/serie
 const createMovie = async ( req, res = response ) => {
+
+    const { title, published = null, qualification = 0 } = req.body;
+    let image = null;
+
+    if ( req.files.image ) {
+        image = await uploadFile( req.files.image, 'movies' );
+    };
     
-    const movie = await Movie.create( req.body );
+    const movie = await Movie.create({ title, published, qualification, image });
 
     res.status(200).json({
         msg: 'La película/serie se ha creado con éxito',
@@ -75,6 +83,10 @@ const deleteMovie = async ( req, res = response ) => {
     const movie = await Movie.findByPk(id);
 
     await movie.destroy();
+
+    if ( movie.image ) {
+        deleteFile( movie.image, 'movies' );
+    };
 
     res.json({
         msg: 'La película/serie se ha eliminado con éxito'
