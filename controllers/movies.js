@@ -3,10 +3,24 @@ const Character = require('../models/character');
 const Movie = require('../models/movie');
 const { uploadFile } = require('../helpers/fileFunctions');
 
+const allowedParameters = ['title', 'genreId'];
+
 // Listado de películas/series
 const getAllMovies = async ( req, res = response ) => {
 
-    const { query } = req;
+    const query = {};
+    
+    Object.keys(req.query).map( key => {
+        if (!allowedParameters.includes(key)) {
+            return res.json({
+                msg: `Ingrese un parámetro de búsqueda válido [${allowedParameters}]`
+            });
+        };
+
+        if (key) {
+            query[key] = req.query[key];
+        };
+    });
 
     const movies = await Movie.findAll({ where: query, attributes: [ 'image', 'title', 'published' ] });
 
@@ -82,11 +96,11 @@ const deleteMovie = async ( req, res = response ) => {
 
     const movie = await Movie.findByPk(id);
 
-    await movie.destroy();
-
     if ( movie.image ) {
         deleteFile( movie.image, 'movies' );
     };
+    
+    await movie.destroy();
 
     res.json({
         msg: 'La película/serie se ha eliminado con éxito'

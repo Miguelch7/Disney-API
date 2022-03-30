@@ -3,10 +3,24 @@ const Character = require('../models/character');
 const Movie = require('../models/movie');
 const { uploadFile, deleteFile } = require('../helpers/fileFunctions');
 
+const allowedParameters = ['name', 'age', 'movieId'];
+
 // Listado de personajes
 const getAllCharacters = async ( req, res = response ) => {
 
-    const { query } = req;
+    const query = {};
+    
+    Object.keys(req.query).map( key => {
+        if (!allowedParameters.includes(key)) {
+            return res.json({
+                msg: `Ingrese un parámetro de búsqueda válido [${allowedParameters}]`
+            });
+        };
+
+        if (key) {
+            query[key] = req.query[key];
+        };
+    });
 
     const characters = await Character.findAll({ where: query, attributes: [ 'image', 'name' ] });
 
